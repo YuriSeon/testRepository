@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="selectList">
+		SELECT NOTICE_NO, NOTICE_TITLE, USER_ID, COUNT, CREATE_DATE
+		FROM NOTICE N
+		JOIN MEMBER M ON(USER_NO=NOTICE_WRITER)
+		WHERE N.STATUS = 'Y'
+		ORDER BY CREATE_DATE DESC
+		<!-- 게시글삭제여부를 상태값으로 나타낼거라서 조건 넣어주기!  -->
+	</entry>
+	<entry key="insertList">
+		INSERT INTO NOTICE VALUES(SEQ_NNO.NEXTVAL, ?, ?, ?, DEFAULT, DEFAULT, DEFAULT)
+	</entry>
+	<entry key="selectNotice">
+		<!-- 
+			사용하지 않더라고 식별자 역할을 하는 컬럼은 항상 같이 조회해오는게 좋음 
+			우리가 url에 위임을 시켜놔서 알수는 있지만 그렇지 않으면 필요할때 다시 조회를 해오는 메소드를 작성하거나 작업을 추가로 해야하기때문에
+			미리 조회를 해오면 해당하는 게시글이나 데이터에 대해서 수정이나 삭제등의 작업을 진행할때 게시글을 식별하기 위한 식별자로 사용 가능해서 불필요한 작업이 줄어듦
+		-->
+		SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, USER_ID, COUNT, CREATE_DATE, N.STATUS
+		FROM NOTICE N
+		JOIN MEMBER M ON(USER_NO=NOTICE_WRITER)
+		WHERE NOTICE_NO = ?
+	</entry>
+	<entry key="increaseCount">
+		UPDATE NOTICE
+		SET COUNT = COUNT +1
+		WHERE NOTICE_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="updateNotice">
+		UPDATE NOTICE
+		SET NOTICE_TITLE = ?
+			, NOTICE_CONTENT = ?
+		WHERE NOTICE_NO = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="deleteNotice">
+		UPDATE NOTICE
+		SET STATUS = 'N'
+		WHERE NOTICE_NO = ?
+	</entry>
+</properties>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="loginMember">
+		SELECT *
+		FROM MEMBER
+		WHERE USER_ID = ?
+		AND USER_PWD = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="insertMember">
+		INSERT INTO MEMBER VALUES(SEQ_UNO.NEXTVAL, ?, ?, ? ,?,?,?,?, SYSDATE, SYSDATE, DEFAULT)
+	</entry>
+	<entry key="updateMember">
+		UPDATE MEMBER
+		SET USER_NAME = ?
+			, PHONE = ?
+			, EMAIL = ?
+			, ADDRESS = ?
+			, INTEREST = ?
+			, MODIFY_DATE = SYSDATE <!-- 수정된 날짜를 적는 컬럼이라서 수정한 날짜를 SYSDATE 넣어서 처리하기 -->
+		WHERE USER_ID = ?
+	</entry>
+	<entry key="selectMember">
+		SELECT *
+		FROM MEMBER
+		WHERE USER_ID = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="updatePwd">
+		UPDATE MEMBER
+		SET USER_PWD = ?
+		WHERE USER_ID = ?
+		AND USER_PWD = ?
+		AND STATUS = 'Y'
+	</entry>
+	<entry key="deleteMember">
+		UPDATE MEMBER
+		SET STATUS = 'N'
+		WHERE USER_ID = ?
+		AND USER_PWD = ?
+		AND STATUS = 'Y'
+	</entry>
+</properties>
